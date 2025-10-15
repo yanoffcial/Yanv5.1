@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#667eea">
+    <meta name="description" content="YAN v5.1 - Ultimate Developer Tools">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiWUFOIHY1LjEiLCJzaG9ydF9uYW1lIjoiWUFOIiwic3RhcnRfdXJsIjoiLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMxYTFhMmUiLCJ0aGVtZV9jb2xvciI6IiM2NjdlZWEifQ==">
+    <title>YAN Official v5.1 - Mega Ultimate Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --bg-main: #1a1a2e;
+            --bg-sidebar: #16213e;
+            --bg-card: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --success: #4caf50;
+            --danger: #f44336;
+            --warning: #ff9800;
+        }
+
+        /* LIGHT THEME */
+        body.light-theme {
+            --bg-main: #f5f5f5;
+            --bg-sidebar: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+        }
+
+        /* CYBERPUNK THEME */
+        body.cyberpunk-theme {
+            --primary: #ff00ff;
+            --secondary: #00ffff;
+            --accent: #ffff00;
+            --bg-main: #0a0a0a;
+            --bg-sidebar: #1a001a;
+            --bg-card: #1a001a;
+        }
+
+        /* MATRIX THEME */
+        body.matrix-theme {
+            --primary: #00ff00;
+            --secondary: #008800;
+            --accent: #00ff00;
+            --bg-main: #000000;
+            --bg-sidebar: #001100;
+            --bg-card: #001100;
+        }
+
+        /* NEON THEME */
+        body.neon-theme {
+            --primary: #ff006e;
+            --secondary: #8338ec;
+            --accent: #3a86ff;
+            --bg-main: #0d1b2a;
+            --bg-sidebar: #1b263b;
+            --bg-card: #1b263b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* LOGIN PAGE */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: var(--primary);
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .login-header .version {
+            color: #666;
+            font-size: 12px;
+            background: #f0f0f0;
+            padding: 4px 12px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .error-message, .success-message {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #3c3;
+        }
+
+        /* MAIN APP */
+        .app-container {
+            display: none;
+            background: var(--bg-main);
+            min-height: 100vh;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .app-logo h1 {
+            color: white;
+            font-size: 24px;
+        }
+
+        .app-logo .version-badge {
+            font-size: 10px;
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .theme-switcher {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .user-avatar.admin {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-logout {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .main-content {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--bg-sidebar);
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            padding: 12px 25px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-left: 4px solid white;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            background: var(--bg-main);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section-title {
+            color: var(--text-primary);
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .tool-card {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 10px;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .tool-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .tool-card input, .tool-card textarea, .tool-card select {
+            width: 100%;
+            padding: 10px;
+            background: var(--bg-main);
+            border: 1px solid #333;
+            color: var(--text-primary);
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .tool-card button {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .tool-card button:hover {
+            background: var(--secondary);
+        }
+
+        /* COMMAND PALETTE */
+        .command-palette {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 100px;
+        }
+
+        .command-palette.active {
+            display: flex;
+        }
+
+        .palette-box {
+            background: var(--bg-card);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .palette-input {
+            width: 100%;
+            padding: 20px;
+            background: var(--bg-main);
+            border: none;
+            color: var(--text-primary);
+            font-size: 18px;
+            outline: none;
+        }
+
+        .palette-results {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .palette-item {
+            padding: 15px 20px;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+            transition: all 0.2s;
+        }
+
+        .palette-item:hover {
+            background: var(--primary);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .stat-card h3 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-card);
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            color: var(--text-primary);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease;
+            display: none;
+        }
+
+        .notification.show {
+            display: block;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .floating-actions {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .floating-btn {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- COMMAND PALETTE -->
+    <div class="command-palette" id="commandPalette">
+        <div class="palette-box">
+            <input type="text" class="palette-input" id="paletteInput" placeholder="Type a command... (Esc to close)">
+            <div class="palette-results" id="paletteResults"></div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION -->
+    <div class="notification" id="notification"></div>
+
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h1>👑 YAN v5.1</h1>
+                <span class="version">Mega Ultimate Edition</span>
+            </div>
+
+            <div id="errorMsg" class="error-message"></div>
+            <div id="successMsg" class="success-message"></div>
+
+            <form id="loginForm" onsubmit="return false;">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter password" required autocomplete="current-password" onkeypress="if(event.key==='Enter') handleLogin()">
+                </div>
+                <div class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Remember me</label>
+                </div>
+                <button type="button" class="btn-login" onclick="handleLogin()">Login</button>
+                <div style="text-align: center; margin-top: 15px;">
+                    <small style="color: #999;">Contact admin to create an account</small>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="mainApp" class="app-container">
+        <header class="app-header">
+            <div class="app-logo">
+                <h1>👑 YAN v5.1 <span class="version-badge">MEGA</span></h1>
+            </div>
+            <div class="header-actions">
+                <button class="theme-switcher" onclick="cycleTheme()" title="Change Theme">🎨</button>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <div>
+                        <div style="font-weight: 600; font-size: 14px;" id="userName">User</div>
+                    </div>
+                    <button class="btn-logout" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="nav-item active" onclick="showTab('home', this)">🏠 Dashboard</div>
+                <div class="nav-item" onclick="showTab('terminal', this)">💻 Terminal</div>
+                <div class="nav-item" onclick="showTab('editor', this)">📝 Code Editor</div>
+                <div class="nav-item" onclick="showTab('apikeys', this)">🔑 API Keys</div>
+                <div class="nav-item" onclick="showTab('tools', this)">🛠️ Dev Tools</div>
+                <div class="nav-item" onclick="showTab('settings', this)">⚙️ Settings</div>
+                <div class="nav-item" onclick="showTab('analytics', this)">📊 Analytics</div>
+                <div class="nav-item" onclick="showTab('backup', this)">💾 Backup</div>
+                <div class="nav-item" id="adminNav" onclick="showTab('admin', this)" style="display:none;">👑 Admin Panel</div>
+            </div>
+
+            <div class="content-area">
+                <!-- HOME TAB -->
+                <div id="home" class="tab-content active">
+                    <h2 class="section-title">Dashboard</h2>
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <h3 id="commandCount">0</h3>
+                            <p>Commands Executed</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="sessionTime">00:00</h3>
+                            <p>Session Time</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="apiCount">5</h3>
+                            <p>API Keys</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>150+</h3>
+                            <p>Features</p>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" style="margin-top: 30px;">
+                        <h3>🚀 Quick Actions</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 15px;">Press <kbd>Ctrl+K</kbd> to open command palette</p>
+                        <button onclick="showCommandPalette()">Open Command Palette</button>
+                        <button onclick="showNotification('Welcome to YAN v5.1!')">Test Notification</button>
+                    </div>
+                </div>
+
+                <!-- TERMINAL TAB -->
+                <div id="terminal" class="tab-content">
+                    <h2 class="section-title">Terminal</h2>
+                    <div class="tool-card">
+                        <div style="background: #000; padding: 20px; border-radius: 8px; min-height: 300px; font-family: monospace; color: #0f0;" id="terminalOutput">
+                            <div>> YAN Terminal v5.1 Ready!</div>
+                            <div>> Type 'help' for commands</div>
+                        </div>
+                        <input type="text" id="terminalInput" placeholder="Enter command..." style="margin-top: 10px;" onkeypress="if(event.key==='Enter') executeCommand()">
+                    </div>
+                </div>
+
+                <!-- CODE EDITOR TAB -->
+                <div id="editor" class="tab-content">
+                    <h2 class="section-title">Code Editor</h2>
+                    <div class="tool-card">
+                        <textarea id="codeArea" rows="15" placeholder="// Write your code here..." style="font-family: monospace;"></textarea>
+                        <button onclick="runCode()">▶️ Run</button>
+                        <button onclick="clearEditor()">🗑️ Clear</button>
+                        <button onclick="saveCode()">💾 Save</button>
+                    </div>
+                </div>
+
+                <!-- API KEYS TAB -->
+                <div id="apikeys" class="tab-content">
+                    <h2 class="section-title">🔑 Public API Database</h2>
+                    <div class="tool-card">
+                        <input type="text" id="searchAPI" placeholder="🔍 Search APIs..." style="margin-bottom: 15px;">
+                        <div id="apiKeysList"></div>
+                    </div>
+                </div>
+
+                <!-- TOOLS TAB -->
+                <div id="tools" class="tab-content">
+                    <h2 class="section-title">Developer Tools</h2>
+                    <div class="tool-card">
+                        <h3>🔐 Hash Generator</h3>
+                        <input type="text" id="hashInput" placeholder="Enter text">
+                        <button onclick="generateHash()">Generate SHA-256</button>
+                        <textarea id="hashOutput" rows="3" readonly></textarea>
+                    </div>
+                    <div class="tool-card">
+                        <h3>🔤 Base64 Encoder</h3>
+                        <input type="text" id="base64Input" placeholder="Enter text">
+                        <button onclick="encodeBase64()">Encode</button>
+                        <button onclick="decodeBase64()">Decode</button>
+                        <textarea id="base64Output" rows="3" readonly></textarea>
+                    </div>
+                </div>
+
+                <!-- SETTINGS TAB -->
+                <div id="settings" class="tab-content">
+                    <h2 class="section-title">⚙️ Settings</h2>
+                    <div class="tool-card">
+                        <h3>🎨 Theme Selection</h3>
+                        <select id="themeSelector" onchange="changeTheme(this.value)">
+                            <option value="dark">Dark Theme</option>
+                            <option value="light">Light Theme</option>
+                            <option value="cyberpunk">Cyberpunk Theme</option>
+                            <option value="matrix">Matrix Theme</option>
+                            <option value="neon">Neon Theme</option>
+                        </select>
+                    </div>
+                    <div class="tool-card">
+                        <h3>🌐 Language</h3>
+                        <select id="langSelector">
+                            <option value="en">English</option>
+                            <option value="id">Bahasa Indonesia</option>
+                        </select>
+                    </div>
+                    <div class="tool-card">
+                        <h3>⚡ Performance</h3>
+                        <label><input type="checkbox" id="perfMode"> Enable Performance Mode</label>
+                    </div>
+                </div>
+
+                <!-- ANALYTICS TAB -->
+                <div id="analytics" class="tab-content">
+                    <h2 class="section-title">📊 Analytics</h2>
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <h3 id="totalCommands">0</h3>
+                            <p>Total Commands</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="totalSessions">1</h3>
+                            <p>Total Sessions</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="avgTime">0m</h3>
+                            <p>Avg Session Time</p>
+                        </div>
+                    </div>
+                    <div class="tool-card" style="margin-top: 20px;">
+                        <h3>📈 Activity Log</h3>
+                        <div id="activityLog" style="max-height: 300px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+
+                <!-- BACKUP TAB -->
+                <div id="backup" class="tab-content">
+                    <h2 class="section-title">💾 Backup & Restore</h2>
+                    <div class="tool-card">
+                        <h3>📤 Export Data</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 15px;">Export all your data including settings, API keys, and history</p>
+                        <button onclick="exportData()">Export All Data</button>
+                    </div>
+                    <div class="tool-card">
+                        <h3>📥 Import Data</h3>
+                        <input type="file" id="importFile" accept=".json">
+                        <button onclick="importData()">Import Data</button>
+                    </div>
+                    <div class="tool-card">
+                        <h3>🔄 Auto Backup</h3>
+                        <label><input type="checkbox" id="autoBackup"> Enable Auto Backup (Daily)</label>
+                    </div>
+                </div>
+
+                <!-- ADMIN PANEL TAB -->
+                <div id="admin" class="tab-content">
+                    <h2 class="section-title">👑 Admin Control Panel</h2>
+                    <div class="tool-card">
+                        <h3>👥 User Management</h3>
+                        <div id="userTableAdmin"></div>
+                    </div>
+                    <div class="tool-card">
+                        <h3>➕ Create User Account</h3>
+                        <input type="text" id="newUsername" placeholder="Username">
+                        <input type="email" id="newEmail" placeholder="Email">
+                        <input type="password" id="newPassword" placeholder="Password">
+                        <button onclick="createUser()">Create User</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING ACTIONS -->
+    <div class="floating-actions">
+        <div class="floating-btn" onclick="showCommandPalette()" title="Command Palette (Ctrl+K)">⌘</div>
+        <div class="floating-btn" onclick="showTab('home')" title="Home">🏠</div>
+    </div>
+
+    <script>
+        // Initialize
+        let currentUser = null;
+        let commandCount = 0;
+        let sessionStart = Date.now();
+        let activityLog = [];
+
+        // Hash password
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // Init Super Admin
+        function initSuperAdmin() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const superAdmin = users.find(u => u.username === 'Yan');
+            
+            if (!superAdmin) {
+                hashPassword('OFFCIAL').then(hash => {
+                    users.push({
+                        username: 'Yan',
+                        email: 'yan@official.com',
+                        password: hash,
+                        isAdmin: true,
+                        isSuperAdmin: true,
+                        status: 'active',
+                        createdAt: new Date().toISOString()
+                    });
+                    localStorage.setItem('users', JSON.stringify(users));
+                });
+            }
+        }
+
+        initSuperAdmin();
+
+        // Login
+        async function handleLogin() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const remember = document.getElementById('rememberMe').checked;
+
+            if (!username || !password) {
+                showError('Please enter credentials!');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const hash = await hashPassword(password);
+            const user = users.find(u => u.username === username && u.password === hash);
+
+            if (!user) {
+                showError('Invalid credentials!');
+                return;
+            }
+
+            if (user.status === 'banned') {
+                showError('Account banned!');
+                return;
+            }
+
+            currentUser = user;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('rememberMe', remember);
+            
+            showSuccess('Login successful!');
+            setTimeout(showApp, 500);
+        }
+
+        // Show App
+        function showApp() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            
+            document.getElementById('userName').textContent = currentUser.username;
+            document.getElementById('userAvatar').textContent = currentUser.username[0].toUpperCase();
+            
+            if (currentUser.isAdmin) {
+                document.getElementById('userAvatar').classList.add('admin');
+                document.getElementById('adminNav').style.display = 'flex';
+            }
+            
+            loadTheme();
+            startSessionTimer();
+            loadActivityLog();
+            initAPIDatabase();
+            showNotification('Welcome back, ' + currentUser.username + '! 🎉');
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('Logout?')) {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('rememberMe');
+                location.reload();
+            }
+        }
+
+        // Messages
+        function showError(msg) {
+            const el = document.getElementById('errorMsg');
+            el.textContent = msg;
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 3000);
+        }
+
+        function showSuccess(msg) {
+            const el = document.getElementById('successMsg');
+            el.textContent = msg;
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 3000);
+        }
+
+        // Notification System
+        function showNotification(msg) {
+            const notif = document.getElementById('notification');
+            notif.textContent = msg;
+            notif.classList.add('show');
+            setTimeout(() => notif.classList.remove('show'), 3000);
+        }
+
+        // Tab Navigation
+        function showTab(tabName, element) {
+            if (tabName === 'admin' && !currentUser.isAdmin) {
+                showNotification('Access Denied! Admin only.');
+                return;
+            }
+
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            if (element) element.classList.add('active');
+            
+            logActivity('Opened ' + tabName + ' tab');
+        }
+
+        // Theme Management
+        function loadTheme() {
+            const theme = localStorage.getItem('theme') || 'dark';
+            changeTheme(theme);
+        }
+
+        function changeTheme(theme) {
+            document.body.className = theme + '-theme';
+            localStorage.setItem('theme', theme);
+            document.getElementById('themeSelector').value = theme;
+            showNotification('Theme changed to ' + theme);
+        }
+
+        function cycleTheme() {
+            const themes = ['dark', 'light', 'cyberpunk', 'matrix', 'neon'];
+            const current = localStorage.getItem('theme') || 'dark';
+            const index = themes.indexOf(current);
+            const next = themes[(index + 1) % themes.length];
+            changeTheme(next);
+        }
+
+        // Command Palette
+        function showCommandPalette() {
+            const palette = document.getElementById('commandPalette');
+            palette.classList.add('active');
+            document.getElementById('paletteInput').focus();
+            
+            const commands = [
+                { name: '🏠 Go to Dashboard', action: () => showTab('home') },
+                { name: '💻 Open Terminal', action: () => showTab('terminal') },
+                { name: '📝 Open Editor', action: () => showTab('editor') },
+                { name: '🔑 View API Keys', action: () => showTab('apikeys') },
+                { name: '⚙️ Open Settings', action: () => showTab('settings') },
+                { name: '📊 View Analytics', action: () => showTab('analytics') },
+                { name: '💾 Backup Data', action: () => exportData() },
+                { name: '🎨 Change Theme', action: () => cycleTheme() },
+                { name: '🚪 Logout', action: () => logout() }
+            ];
+            
+            displayPaletteResults(commands);
+        }
+
+        function displayPaletteResults(commands) {
+            const results = document.getElementById('paletteResults');
+            results.innerHTML = '';
+            commands.forEach(cmd => {
+                const item = document.createElement('div');
+                item.className = 'palette-item';
+                item.textContent = cmd.name;
+                item.onclick = () => {
+                    cmd.action();
+                    closeCommandPalette();
+                };
+                results.appendChild(item);
+            });
+        }
+
+        function closeCommandPalette() {
+            document.getElementById('commandPalette').classList.remove('active');
+        }
+
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+K for command palette
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                showCommandPalette();
+            }
+            // Escape to close palette
+            if (e.key === 'Escape') {
+                closeCommandPalette();
+            }
+        });
+
+        // Terminal
+        function executeCommand() {
+            const input = document.getElementById('terminalInput');
+            const output = document.getElementById('terminalOutput');
+            const cmd = input.value.trim();
+            
+            if (!cmd) return;
+            
+            output.innerHTML += `<div>> ${cmd}</div>`;
+            
+            const commands = {
+                'help': 'Commands: help, clear, date, time, whoami, version, theme',
+                'clear': () => { output.innerHTML = ''; return ''; },
+                'date': new Date().toLocaleDateString(),
+                'time': new Date().toLocaleTimeString(),
+                'whoami': currentUser.username,
+                'version': 'YAN v5.1 Mega Ultimate Edition',
+                'theme': 'Current theme: ' + (localStorage.getItem('theme') || 'dark')
+            };
+            
+            let response = commands[cmd] || 'Command not found';
+            if (typeof response === 'function') response = response();
+            
+            if (response) output.innerHTML += `<div style="color:#00ff00">${response}</div>`;
+            
+            input.value = '';
+            output.scrollTop = output.scrollHeight;
+            commandCount++;
+            logActivity('Executed command: ' + cmd);
+        }
+
+        // Code Editor
+        function runCode() {
+            const code = document.getElementById('codeArea').value;
+            try {
+                const result = eval(code);
+                showNotification('Result: ' + result);
+                logActivity('Ran code');
+            } catch (error) {
+                showNotification('Error: ' + error.message);
+            }
+        }
+
+        function clearEditor() {
+            document.getElementById('codeArea').value = '';
+        }
+
+        function saveCode() {
+            const code = document.getElementById('codeArea').value;
+            const blob = new Blob([code], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'code.js';
+            a.click();
+            showNotification('Code saved!');
+        }
+
+        // Hash Generator
+        async function generateHash() {
+            const input = document.getElementById('hashInput').value;
+            if (!input) {
+                showNotification('Please enter text');
+                return;
+            }
+            const hash = await hashPassword(input);
+            document.getElementById('hashOutput').value = hash;
+        }
+
+        // Base64
+        function encodeBase64() {
+            const input = document.getElementById('base64Input').value;
+            if (!input) {
+                showNotification('Please enter text');
+                return;
+            }
+            document.getElementById('base64Output').value = btoa(input);
+        }
+
+        function decodeBase64() {
+            const input = document.getElementById('base64Input').value;
+            if (!input) {
+                showNotification('Please enter text');
+                return;
+            }
+            try {
+                document.getElementById('base64Output').value = atob(input);
+            } catch (e) {
+                showNotification('Invalid Base64');
+            }
+        }
+
+        // API Database
+        function initAPIDatabase() {
+            const apis = localStorage.getItem('publicAPIs');
+            if (!apis) {
+                const defaultAPIs = [
+                    // AI & ChatGPT
+                    { name: 'ChatGPT Free API', category: 'AI', url: 'https://chatgpt-api.shn.hk', key: 'No API key required', description: 'Free ChatGPT API without authentication. Supports GPT-3.5 and GPT-4.' },
+                    { name: 'GPT-4 Free', category: 'AI', url: 'https://nexra.aryahcr.cc', key: 'No API key required', description: 'Free GPT-4 API with no rate limits. Multiple AI models available.' },
+                    { name: 'Gemini AI Free', category: 'AI', url: 'https://makersuite.google.com/app/apikey', key: 'Get free at: https://makersuite.google.com/app/apikey', description: 'Google Gemini AI API. Free tier with generous limits.' },
+                    { name: 'Claude AI', category: 'AI', url: 'https://console.anthropic.com', key: 'Get free at: https://console.anthropic.com', description: 'Anthropic Claude AI. Free tier available.' },
+                    { name: 'Groq AI (Fastest)', category: 'AI', url: 'https://console.groq.com', key: 'Get free at: https://console.groq.com', description: 'Ultra-fast AI inference. Free tier with generous limits.' },
+                    { name: 'Hugging Face', category: 'AI', url: 'https://huggingface.co/settings/tokens', key: 'Get free at: https://huggingface.co/settings/tokens', description: 'Access 100,000+ AI models. Free API.' },
+                    { name: 'Cohere AI', category: 'AI', url: 'https://dashboard.cohere.com/api-keys', key: 'Get free at: https://dashboard.cohere.com/api-keys', description: 'Enterprise AI platform. Free tier for developers.' },
+                    
+                    // Image Generation
+                    { name: 'Pollinations AI', category: 'Image', url: 'https://pollinations.ai', key: 'No API key required', description: 'Free AI image generation. No limits, no registration.' },
+                    { name: 'Stable Diffusion', category: 'Image', url: 'https://platform.stability.ai/account/keys', key: 'Get free at: https://platform.stability.ai/account/keys', description: 'High quality AI image generation.' },
+                    { name: 'Remove.bg', category: 'Image', url: 'https://www.remove.bg/api', key: 'Get free: 50 images/month', description: 'Best background removal API.' },
+                    { name: 'Pexels Photos', category: 'Image', url: 'https://www.pexels.com/api/new/', key: 'Get free at: https://www.pexels.com/api/new/', description: 'Free stock photos API. No rate limits.' },
+                    { name: 'Unsplash', category: 'Image', url: 'https://unsplash.com/oauth/applications', key: 'Get free: 50 req/hour', description: 'Beautiful free photos API.' },
+                    
+                    // Translation
+                    { name: 'DeepL Translator', category: 'Translation', url: 'https://www.deepl.com/pro-api', key: 'Free: 500k chars/month', description: 'Best translation API. Very accurate.' },
+                    { name: 'Google Translate', category: 'Translation', url: 'https://console.cloud.google.com', key: 'Free: 500k chars/month', description: 'Google translation. 100+ languages.' },
+                    { name: 'LibreTranslate', category: 'Translation', url: 'https://libretranslate.com', key: 'No API key required', description: 'Free open source translation. No limits.' },
+                    
+                    // Weather
+                    { name: 'OpenWeather', category: 'Weather', url: 'https://home.openweathermap.org/api_keys', key: 'Free: 1000 calls/day', description: 'Weather data API. Current and forecasts.' },
+                    { name: 'WeatherAPI', category: 'Weather', url: 'https://www.weatherapi.com', key: 'Free: 1M calls/month', description: 'Real-time weather data.' },
+                    
+                    // News
+                    { name: 'NewsAPI', category: 'News', url: 'https://newsapi.org/register', key: 'Free: 100 req/day', description: 'Access 80,000+ news sources worldwide.' },
+                    { name: 'The Guardian', category: 'News', url: 'https://open-platform.theguardian.com', key: 'Get free key', description: 'The Guardian news API.' },
+                    
+                    // Entertainment
+                    { name: 'TMDB (Movies)', category: 'Entertainment', url: 'https://www.themoviedb.org/settings/api', key: 'Get free key', description: 'Movie and TV database. Unlimited requests.' },
+                    { name: 'Spotify', category: 'Entertainment', url: 'https://developer.spotify.com', key: 'Get free key', description: 'Music data and streaming.' },
+                    { name: 'JokeAPI', category: 'Entertainment', url: 'https://jokeapi.dev', key: 'No API key required', description: 'Free jokes API. Multiple languages.' },
+                    { name: 'NASA API', category: 'Entertainment', url: 'https://api.nasa.gov', key: 'DEMO_KEY works', description: 'Space photos and data.' },
+                    { name: 'Cat as a Service', category: 'Entertainment', url: 'https://cataas.com', key: 'No API key required', description: 'Random cat images. Unlimited.' },
+                    { name: 'Dog API', category: 'Entertainment', url: 'https://dog.ceo/dog-api', key: 'No API key required', description: '20,000+ dog images.' },
+                    
+                    // Utility
+                    { name: 'JSONPlaceholder', category: 'Utility', url: 'https://jsonplaceholder.typicode.com', key: 'No API key required', description: 'Free fake REST API for testing.' },
+                    { name: 'Random User', category: 'Utility', url: 'https://randomuser.me', key: 'No API key required', description: 'Random user data generator.' },
+                    { name: 'QR Code Generator', category: 'Utility', url: 'https://api.qrserver.com', key: 'No API key required', description: 'Free QR code generation.' },
+                    { name: 'IP Geolocation', category: 'Utility', url: 'https://ipapi.co', key: 'Free: 30k req/month', description: 'Get location from IP address.' },
+                    { name: 'ExchangeRate', category: 'Utility', url: 'https://www.exchangerate-api.com', key: 'Free: 1500 req/month', description: 'Currency exchange rates. 160+ currencies.' },
+                    { name: 'REST Countries', category: 'Utility', url: 'https://restcountries.com', key: 'No API key required', description: 'Country information. Flags, currencies.' },
+                    { name: 'GitHub API', category: 'Utility', url: 'https://github.com/settings/tokens', key: 'Free: 5000 req/hour', description: 'GitHub REST API. Repos, users, issues.' },
+                    { name: 'Fake Store API', category: 'Utility', url: 'https://fakestoreapi.com', key: 'No API key required', description: 'Fake e-commerce data for testing.' }
+                ];
+                localStorage.setItem('publicAPIs', JSON.stringify(defaultAPIs));
+            }
+            loadAPIKeys();
+        }
+
+        function loadAPIKeys() {
+            const apis = JSON.parse(localStorage.getItem('publicAPIs') || '[]');
+            const container = document.getElementById('apiKeysList');
+            
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (apis.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 40px;">No APIs found</p>';
+                return;
+            }
+            
+            apis.forEach(api => {
+                const card = document.createElement('div');
+                card.style.cssText = 'background: var(--bg-card); padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid var(--primary); transition: transform 0.2s;';
+                card.onmouseenter = () => card.style.transform = 'translateX(5px)';
+                card.onmouseleave = () => card.style.transform = 'translateX(0)';
+                
+                const categoryBadge = `<span style="background: var(--accent); color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px; margin-right: 8px;">${api.category}</span>`;
+                
+                card.innerHTML = `
+                    <div style="margin-bottom: 10px;">${categoryBadge}<span style="background: var(--success); color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px;">✓ PUBLIC</span></div>
+                    <h4 style="color: var(--primary); margin-bottom: 8px; font-size: 16px;">${api.name}</h4>
+                    <p style="color: var(--text-secondary); font-size: 13px; margin: 5px 0; line-height: 1.5;">${api.description}</p>
+                    <p style="color: var(--text-secondary); font-size: 12px; margin: 8px 0;">🔗 <a href="${api.url}" target="_blank" style="color: var(--primary); text-decoration: none;">${api.url}</a></p>
+                    <div style="background: #0d1117; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                        <p style="color: #0f0; font-family: monospace; font-size: 12px; margin: 0; word-break: break-all;">${api.key}</p>
+                    </div>
+                    <button onclick="copyToClipboard('${api.key.replace(/'/g, "\\'")}', 'API Key')" style="background: var(--success); padding: 6px 12px; margin-right: 5px;">📋 Copy Key</button>
+                    <button onclick="window.open('${api.url}', '_blank')" style="background: var(--primary); padding: 6px 12px;">🌐 Visit Site</button>
+                `;
+                container.appendChild(card);
+            });
+            
+            document.getElementById('apiCount').textContent = apis.length;
+        }
+
+        function copyToClipboard(text, label) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification(label + ' copied to clipboard! 📋');
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showNotification(label + ' copied! 📋');
+            });
+        }
+
+        // Search API
+        const searchInput = document.getElementById('searchAPI');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const apis = JSON.parse(localStorage.getItem('publicAPIs') || '[]');
+                const filtered = apis.filter(api => 
+                    api.name.toLowerCase().includes(query) ||
+                    api.description.toLowerCase().includes(query) ||
+                    api.category.toLowerCase().includes(query) ||
+                    api.key.toLowerCase().includes(query)
+                );
+                
+                const container = document.getElementById('apiKeysList');
+                container.innerHTML = '';
+                
+                if (filtered.length === 0) {
+                    container.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 40px;">No results found for "' + query + '" 🔍</p>';
+                    return;
+                }
+                
+                filtered.forEach(api => {
+                    const card = document.createElement('div');
+                    card.style.cssText = 'background: var(--bg-card); padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid var(--primary); transition: transform 0.2s;';
+                    card.onmouseenter = () => card.style.transform = 'translateX(5px)';
+                    card.onmouseleave = () => card.style.transform = 'translateX(0)';
+                    
+                    const categoryBadge = `<span style="background: var(--accent); color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px; margin-right: 8px;">${api.category}</span>`;
+                    
+                    card.innerHTML = `
+                        <div style="margin-bottom: 10px;">${categoryBadge}<span style="background: var(--success); color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px;">✓ PUBLIC</span></div>
+                        <h4 style="color: var(--primary); margin-bottom: 8px; font-size: 16px;">${api.name}</h4>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin: 5px 0; line-height: 1.5;">${api.description}</p>
+                        <p style="color: var(--text-secondary); font-size: 12px; margin: 8px 0;">🔗 <a href="${api.url}" target="_blank" style="color: var(--primary); text-decoration: none;">${api.url}</a></p>
+                        <div style="background: #0d1117; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                            <p style="color: #0f0; font-family: monospace; font-size: 12px; margin: 0; word-break: break-all;">${api.key}</p>
+                        </div>
+                        <button onclick="copyToClipboard('${api.key.replace(/'/g, "\\'")}', 'API Key')" style="background: var(--success); padding: 6px 12px; margin-right: 5px;">📋 Copy Key</button>
+                        <button onclick="window.open('${api.url}', '_blank')" style="background: var(--primary); padding: 6px 12px;">🌐 Visit Site</button>
+                    `;
+                    container.appendChild(card);
+                });
+            });
+        }
+
+        // Activity Log
+        function logActivity(action) {
+            activityLog.push({
+                action: action,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('activityLog_' + currentUser.username, JSON.stringify(activityLog));
+            updateAnalytics();
+        }
+
+        function loadActivityLog() {
+            activityLog = JSON.parse(localStorage.getItem('activityLog_' + currentUser.username) || '[]');
+            const container = document.getElementById('activityLog');
+            container.innerHTML = '';
+            
+            activityLog.slice(-10).reverse().forEach(log => {
+                const item = document.createElement('div');
+                item.style.cssText = 'padding: 10px; margin: 5px 0; background: var(--bg-main); border-radius: 5px; font-size: 13px;';
+                item.innerHTML = `
+                    <strong>${log.action}</strong><br>
+                    <small style="color: var(--text-secondary);">${new Date(log.timestamp).toLocaleString()}</small>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function updateAnalytics() {
+            document.getElementById('totalCommands').textContent = commandCount;
+            document.getElementById('commandCount').textContent = commandCount;
+        }
+
+        // Session Timer
+        function startSessionTimer() {
+            setInterval(() => {
+                const elapsed = Math.floor((Date.now() - sessionStart) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('sessionTime').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Backup & Restore
+        function exportData() {
+            const data = {
+                user: currentUser.username,
+                activityLog: activityLog,
+                theme: localStorage.getItem('theme'),
+                apis: localStorage.getItem('publicAPIs'),
+                exportDate: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'yan-backup-' + Date.now() + '.json';
+            a.click();
+            showNotification('Data exported successfully! 💾');
+        }
+
+        function importData() {
+            const file = document.getElementById('importFile').files[0];
+            if (!file) {
+                showNotification('Please select a file');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.theme) localStorage.setItem('theme', data.theme);
+                    if (data.apis) localStorage.setItem('publicAPIs', data.apis);
+                    showNotification('Data imported successfully! ✅');
+                    location.reload();
+                } catch (err) {
+                    showNotification('Invalid backup file');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Admin Functions
+        function createUser() {
+            if (!currentUser.isAdmin) {
+                showNotification('Admin only!');
+                return;
+            }
+            
+            const username = document.getElementById('newUsername').value.trim();
+            const email = document.getElementById('newEmail').value.trim();
+            const password = document.getElementById('newPassword').value;
+            
+            if (!username || !email || !password) {
+                showNotification('Fill all fields!');
+                return;
+            }
+            
+            hashPassword(password).then(hash => {
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+                users.push({
+                    username,
+                    email,
+                    password: hash,
+                    isAdmin: false,
+                    status: 'active',
+                    createdAt: new Date().toISOString()
+                });
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                document.getElementById('newUsername').value = '';
+                document.getElementById('newEmail').value = '';
+                document.getElementById('newPassword').value = '';
+                
+                showNotification('User created: ' + username);
+            });
+        }
+
+        // Auto-login check
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('currentUser');
+            const remember = localStorage.getItem('rememberMe');
+            
+            if (saved && remember === 'true') {
+                try {
+                    currentUser = JSON.parse(saved);
+                    showApp();
+                } catch (e) {
+                    console.error('Error loading user:', e);
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('rememberMe');
+                }
+            }
+        });
+
+        // Auto-save theme preference
+        document.getElementById('themeSelector').addEventListener('change', (e) => {
+            changeTheme(e.target.value);
+        });
+
+        console.log('%c🚀 YAN v5.1 Mega Ultimate Edition Loaded!', 'color: #667eea; font-size: 20px; font-weight: bold;');
+        console.log('%c✨ New Features: PWA, Themes, Analytics, Backup, Command Palette!', 'color: #f093fb; font-size: 14px;');
+    </script>
+</body>
+</html>
